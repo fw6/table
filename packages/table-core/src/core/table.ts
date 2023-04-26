@@ -84,6 +84,7 @@ export interface CoreOptions<TData extends RowData> {
   columns: ColumnDef<TData, any>[]
   defaultColumn?: Partial<ColumnDef<TData, unknown>>
   renderFallbackValue: any
+  features?: TableFeature[]
 }
 
 export interface CoreInstance<TData extends RowData> {
@@ -116,7 +117,7 @@ export function createTable<TData extends RowData>(
     console.info('Creating Table Instance...')
   }
 
-  let table = { _features: features } as unknown as Table<TData>
+  let table = { _features: [...features, ...(options.features || [])] } as unknown as Table<TData>
 
   const defaultOptions = table._features.reduce((obj, feature) => {
     return Object.assign(obj, feature.getDefaultOptions?.(table))
